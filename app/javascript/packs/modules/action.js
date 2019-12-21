@@ -1,26 +1,37 @@
+import { getIsLoggedIn, logout, login } from '../api/auth';
 
 const Types = {
-  FETCH_PHOTOS: "FETCH_PHOTOS",
-  GET_PHOTO: "GET_PHOTO"
+  UPDATE_IS_LOGGED_IN: 'UPDATE_IS_LOGGED_IN',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT'
 };
 
-export const fetchPhotos = (payload) => {
+export const updateIsLoggedIn = (payload) => {
+  console.log('updateIsUserLoggedIn');
 
+  return getIsLoggedIn().then(isLoggedIn => {
+    return {
+      type: Types.UPDATE_IS_LOGGED_IN,
+      payload: isLoggedIn
+    };
+  });
+
+};
+
+export const loginUser = (payload) => {
   return {
-    type: Types.FETCH_PHOTOS,
+    type: Types.LOGIN,
     payload: payload
   };
 };
 
-export const getPhoto = (payload) => {
+export const logoutUser = (payload) => {
   return {
-    type: Types.GET_PHOTO,
+    type: Types.LOGOUT,
     payload: payload
   };
 };
 
 export default {
-  fetchPhotos,
-  getPhoto,
   Types
 };

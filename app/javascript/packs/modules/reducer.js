@@ -1,19 +1,28 @@
 import ACTIONS from './action';
 
 const defaultState = {
-  stateAttribute: []
+  isUserLoggedIn: false,
+  currentUser: {},
 };
 
 const sampleReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case ACTIONS.Types.ACTION_1: {
-      // let item = action.payload;
+    case ACTIONS.Types.UPDATE_IS_LOGGED_IN: {
+      let newState = {
+        ...state,
+        isUserLoggedIn: action.payload
+      };
+
+      return newState;
+    }
+
+    case ACTIONS.Types.LOGIN: {
       let newState = { ...state };
 
       return newState;
     }
 
-    case ACTIONS.Types.ACTION_2: {
+    case ACTIONS.Types.LOGOUT: {
       let newState = { ...state };
 
       return newState;

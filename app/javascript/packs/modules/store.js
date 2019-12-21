@@ -1,7 +1,11 @@
-import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
-import reactDeviseReducers from 'react-devise/lib/reducers';
-// import ReduxThunk from 'redux-thunk';
-// import ReduxPromise from 'redux-promise';
+import {
+  createStore,
+  compose,
+  applyMiddleware,
+} from 'redux';
+
+import ReduxThunk from 'redux-thunk';
+import ReduxPromise from 'redux-promise';
 import reducer from './reducer';
 
 const composeEnhancers = (
@@ -12,13 +16,11 @@ const composeEnhancers = (
   })
 ) || compose;
 
-export default function configureStore(initialState) {
-  const store = createStore(
-    combineReducers({
-      ...reducer,
-      ...reactDeviseReducers
-    })
-  );
+const store = createStore(
+  reducer,
+  composeEnhancers(
+    applyMiddleware(ReduxPromise, ReduxThunk)
+  )
+);
 
-  return store;
-}
+export default store;
