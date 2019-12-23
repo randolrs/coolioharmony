@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getIsLoggedIn, logout, login } from '../api/auth';
-import { updateIsLoggedIn } from '../modules/action';
+import { updateIsLoggedIn, loginUser, logoutUser } from '../modules/action';
 
 import Nav from './layout/Nav';
 import ContentBody from './layout/ContentBody';
 import Footer from './layout/Footer';
-import { NAV_HEIGHT } from './layout/dimensions';
 
 const Layout = props => {
   const [ isLoggedIn, setIsLoggedIn ] = useState(null);
@@ -18,17 +16,13 @@ const Layout = props => {
   }, []);
 
   const logoutUser = () => {
-    logout().then(res => {
-      setIsLoggedIn(false);
-    });
+    props.logoutUser();
   }
 
   const loginUser = () => {
-    login({
+    props.loginUser({
       userEmail: 'r.shane.randolph@gmail.com',
       password: 'xxx',
-    }).then(res => {
-      setIsLoggedIn(true);
     });
   }
 
@@ -38,8 +32,8 @@ const Layout = props => {
       <ContentBody>
         {
           props.isUserLoggedIn ?
-          <span>Yes, logged in</span> :
-          <span>No, logged out</span>
+          <span onClick={ logoutUser }>Yes, logged in</span> :
+          <span onClick={ loginUser }>No, logged out</span>
         }
       </ContentBody>
       <Footer/>
@@ -54,5 +48,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  updateIsLoggedIn
+  updateIsLoggedIn,
+  loginUser,
+  logoutUser
 })(Layout);

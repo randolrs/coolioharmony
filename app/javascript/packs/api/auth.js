@@ -5,43 +5,33 @@ const LOGIN = '/users/sign_in';
 const LOGOUT = '/users/sign_out';
 
 export const getIsLoggedIn = async () => {
-  try {
-    const response = await apiClient.fetch(IS_LOGGED_IN);
-    const { logged_in } = response;
+  const response = await apiClient.fetch(IS_LOGGED_IN);
+  const { logged_in } = response;
 
-    return logged_in;
-  } catch (err) {
-    console.log(err)
-  }
+  return logged_in;
 };
 
 export const login = async ({ userEmail, password }) => {
-  console.log('login');
+  const response = await apiClient.post(LOGIN, {
+    'user[email]': userEmail,
+    'user[password]': password,
+  });
 
-  try {
-    const response = await apiClient.post(LOGIN, {
-      'user[email]': userEmail,
-      'user[password]': password,
-    });
+  if(!response['csrfToken']) throw 'Login failed';
 
-    updateCSRFToken(response['csrfToken']);
+  updateCSRFToken(response['csrfToken']);
 
-    return response;
-  } catch (err) {
-    console.log(err)
-  }
+  return response;
 };
 
 export const logout = async () => {
-  try {
-    const response = await apiClient.delete(LOGOUT);
+  const response = await apiClient.delete(LOGOUT);
 
-    updateCSRFToken(response['csrfToken']);
+  if(!response['csrfToken']) throw 'Logout failed';
 
-    return response;
-  } catch (err) {
-    console.log(err)
-  }
+  updateCSRFToken(response['csrfToken']);
+
+  return response;
 };
 
 const updateCSRFToken = (newToken) => {

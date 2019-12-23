@@ -17,13 +17,21 @@ const sampleReducer = (state = defaultState, action) => {
     }
 
     case ACTIONS.Types.LOGIN: {
-      let newState = { ...state };
+      let newState = {
+        ...state,
+        currentUser: action.payload,
+        isUserLoggedIn: true,
+      };
 
       return newState;
     }
 
     case ACTIONS.Types.LOGOUT: {
-      let newState = { ...state };
+      let newState = {
+        ...state,
+        isUserLoggedIn: false,
+        currentUser: {},
+      };
 
       return newState;
     }

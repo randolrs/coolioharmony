@@ -3,7 +3,6 @@ import qs from 'qs';
 
 class ApiClient {
   constructor (options = {}) {
-    // var token = document.getElementsByName('csrf-token')[0].content;
     this.api = axios.create({
       baseURL: options.apiUrl,
       timeout: 61000,
@@ -15,7 +14,6 @@ class ApiClient {
             return document.getElementsByName('csrf-token')[0].content;
           }
         }
-        // 'X-CSRF-Token': token
       },
     });
 

@@ -7,29 +7,45 @@ const Types = {
 };
 
 export const updateIsLoggedIn = (payload) => {
-  console.log('updateIsUserLoggedIn');
-
   return getIsLoggedIn().then(isLoggedIn => {
     return {
       type: Types.UPDATE_IS_LOGGED_IN,
       payload: isLoggedIn
     };
+  }).catch(err => {
+    return {
+      type: 'nothing',
+      payload: null,
+    }
   });
-
 };
 
-export const loginUser = (payload) => {
-  return {
-    type: Types.LOGIN,
-    payload: payload
-  };
+export const loginUser = (credentials) => {
+  return login(credentials).then(res => {
+    return {
+      type: Types.LOGIN,
+      payload: res
+    };
+  }).catch(err => {
+    return {
+      type: 'nothing',
+      payload: null,
+    }
+  });
 };
 
 export const logoutUser = (payload) => {
-  return {
-    type: Types.LOGOUT,
-    payload: payload
-  };
+  return logout().then(res => {
+    return {
+      type: Types.LOGOUT,
+      payload: {}
+    };
+  }).catch(err => {
+    return {
+      type: 'nothing',
+      payload: null,
+    }
+  });
 };
 
 export default {
